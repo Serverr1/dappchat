@@ -1,11 +1,11 @@
 import Web3 from "web3"
 import { newKitFromWeb3 } from "@celo/contractkit"
 import BigNumber from "bignumber.js"
-import marketplaceAbi from "../contract/marketplace.abi.json"
+import marketplaceAbi from "../contract/chatgroups.abi.json"
 import erc20Abi from "../contract/erc20.abi.json"
 
 const ERC20_DECIMALS = 18
-const MPContractAddress = "0xc6Ad961570151f262029997d53E70c6B2B6599d7"
+const ChatgroupContractAddress = "0x397812d47A25F81Fee18F55B618e761Fe7567a20"
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
 
 let kit
@@ -27,7 +27,7 @@ const connectCeloWallet = async function () {
       const accounts = await kit.web3.eth.getAccounts()
       kit.defaultAccount = accounts[0]
 
-      contract = new kit.web3.eth.Contract(marketplaceAbi, MPContractAddress)
+      contract = new kit.web3.eth.Contract(marketplaceAbi, ChatgroupContractAddress)
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
@@ -40,7 +40,7 @@ async function approve(_price) {
   const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
 
   const result = await cUSDContract.methods
-    .approve(MPContractAddress, _price)
+    .approve(ChatgroupContractAddress, _price)
     .send({ from: kit.defaultAccount })
   return result
 }

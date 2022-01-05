@@ -20,6 +20,7 @@ interface IERC20Token {
     function allowance(address, address) external view returns (uint256);
 
     event Transfer(address indexed from, address indexed to, uint256 value);
+
     event Approval(
         address indexed owner,
         address indexed spender,
@@ -30,30 +31,38 @@ interface IERC20Token {
 contract ChatGroups {
     uint256 internal chatsLength = 0;
     uint256 internal messagesLength = 0;
-    address internal cUsdTokenAddress =
-        0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
+    address internal cUsdTokenAddress = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
+
 
     struct Message {
         address creator;
         string content;
     }
 
+
     struct Chat {
         address payable owner;
         string title;
         string description;
+         string rules;
         uint256 price;
         address[] participants;
         uint256[] messages;
+       
     }
+
+
 
     mapping(uint256 => Chat) internal chats;
 
     mapping(uint256 => Message) internal messages;
 
+
+
     function createChat(
         string memory _title,
         string memory _description,
+        string memory _rules,
         uint256 _price
     ) public {
         address[] memory _participants;
@@ -62,6 +71,7 @@ contract ChatGroups {
             payable(msg.sender),
             _title,
             _description,
+            _rules,
             _price,
             _participants,
             _messages
@@ -96,6 +106,13 @@ contract ChatGroups {
             chats[_index].participants,
             chats[_index].messages
         );
+    }
+
+    function removeParticipant(uint _chatindex, uint _participantindex ) public{
+        require(chats[_chatindex].owner == msg.sender, "Only the creator can remove participant" );
+        delete chats[_chatindex].participants[_participantindex];
+
+        
     }
 
     function getMessages(uint256 _index)
