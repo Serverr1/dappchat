@@ -1,7 +1,7 @@
 import Web3 from "web3"
 import { newKitFromWeb3 } from "@celo/contractkit"
 import BigNumber from "bignumber.js"
-import marketplaceAbi from "../contract/chatgroups.abi.json"
+import marketplaceAbi from "../contract/daapchat.abi.json"
 import erc20Abi from "../contract/erc20.abi.json"
 
 const ERC20_DECIMALS = 18
